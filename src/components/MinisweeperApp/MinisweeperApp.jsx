@@ -8,7 +8,12 @@ class MinisweeperApp extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      config: null,
+      config: {
+        cols: 10,
+        rows: 10,
+        mines: 10,
+        seed: 'Minesweeper'
+      },
       play: false
     }
   }
@@ -17,11 +22,14 @@ class MinisweeperApp extends React.PureComponent {
     this.setState({
       play: false
     });
-  }
+  };
 
-  handlePlay = (config) => {
+  handleConfigUpdated = (config) => {
+    this.setState({config});
+  };
+
+  handleGameStart = () => {
     this.setState({
-      config,
       play: true
     });
   };
@@ -30,7 +38,11 @@ class MinisweeperApp extends React.PureComponent {
     return (
       <div className="MinisweeperApp" >
         {!this.state.play && (
-          <MinesweeperConfig play={this.handlePlay} />
+          <MinesweeperConfig
+            onConfigUpdated={this.handleConfigUpdated}
+            onGameStart={this.handleGameStart}
+            config={this.state.config}
+          />
         )}
         {this.state.play && (
           <div>

@@ -209,7 +209,7 @@ MinesweeperGame.propTypes = {
   cols: PropTypes.number.isRequired,
   mines: PropTypes.number.isRequired,
   rows: PropTypes.number.isRequired,
-  seed: PropTypes.string,
+  seed: PropTypes.string
 };
 
 MinesweeperGame.defaultProps = {};

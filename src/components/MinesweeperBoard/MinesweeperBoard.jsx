@@ -9,35 +9,33 @@ export const STATUS_GAME_OVER = 'STATUS_GAME_OVER';
 export const STATUS_RUNNING = 'STATUS_RUNNING';
 export const STATUS_WIN = 'STATUS_WIN';
 
-class MinesweeperBoard extends React.PureComponent {
-  render() {
-    const classNames = {
-      MinesweeperBoard: true,
-      hasWon: this.props.status === STATUS_WIN,
-      hasLost: this.props.status === STATUS_GAME_OVER
-    };
+function MinesweeperBoard({board, onFlagToggled, onReveal, status}) {
+  const classNames = {
+    MinesweeperBoard: true,
+    hasWon: status === STATUS_WIN,
+    hasLost: status === STATUS_GAME_OVER
+  };
 
-    return (
-      <div className={classname(classNames)}>
-        {this.props.board.map((row, rowIndex) => (
-          <div className="MinesweeperBoard__row" key={rowIndex} >
-            {row.map((cell, colIndex) => (
-              <div className="MinesweeperBoard__cell" key={colIndex} >
-                <MinesweeperCell
-                  col={colIndex}
-                  onFlagToggled={this.props.onFlagToggled}
-                  onReveal={this.props.onReveal}
-                  row={rowIndex}
-                  state={cell.state}
-                  value={cell.value}
-                />
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-    );
-  }
+  return (
+    <div className={classname(classNames)}>
+      {board.map((row, rowIndex) => (
+        <div className="MinesweeperBoard__row" key={rowIndex} >
+          {row.map((cell, colIndex) => (
+            <div className="MinesweeperBoard__cell" key={colIndex} >
+              <MinesweeperCell
+                col={colIndex}
+                onFlagToggled={onFlagToggled}
+                onReveal={onReveal}
+                row={rowIndex}
+                state={cell.state}
+                value={cell.value}
+              />
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
 }
 
 MinesweeperBoard.propTypes = {
