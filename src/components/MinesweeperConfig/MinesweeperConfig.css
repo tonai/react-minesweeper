@@ -1,0 +1,24 @@
+.MinesweeperConfig__table {
+  display: table;
+  width: 100%;
+}
+
+.MinesweeperConfig__row {
+  display: table-row;
+}
+
+.MinesweeperConfig__label {
+  display: table-cell;
+  margin: 5px 0;
+}
+
+.MinesweeperConfig__input {
+  display: table-cell;
+  margin: 5px 0;
+  width: 100%;
+}
+
+.MinesweeperConfig__buttons {
+  text-align: center;
+  margin: 5px 0;
+}

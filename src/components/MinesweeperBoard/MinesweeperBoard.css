@@ -1,0 +1,27 @@
+.MinesweeperBoard {
+  display: table;
+  border-top: 1px solid #888;
+  border-left: 1px solid #888;
+  margin: 0 auto;
+}
+
+.MinesweeperBoard__row {
+  display: table-row;
+}
+
+.MinesweeperBoard__cell {
+  display: table-cell;
+  border-bottom: 1px solid #888;
+  border-right: 1px solid #888;
+  vertical-align: middle;
+}
+
+.MinesweeperBoard.hasWon,
+.MinesweeperBoard.hasWon .MinesweeperBoard__cell {
+  border-color: green;
+}
+
+.MinesweeperBoard.hasLost,
+.MinesweeperBoard.hasLost .MinesweeperBoard__cell {
+  border-color: red;
+}
