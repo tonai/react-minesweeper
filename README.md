@@ -7,7 +7,7 @@
 ## Install
 
 1. Clone this repository or get the tarball and extract it.
-2. Inside the `lasertank` folder (where the `package.json` is located) run `npm i`
+2. Inside the project folder (where the `package.json` is located) run `npm i`
 
 ## Run
 
