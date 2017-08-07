@@ -2,6 +2,7 @@
   "name": "react-minesweeper",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://tonai.github.io/react-minesweeper",
   "dependencies": {
     "classname": "0.0.0",
     "react": "^15.6.1",
@@ -10,6 +11,8 @@
     "seedrandom": "^2.4.3"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
