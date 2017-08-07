@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import boomImage from '../../assets/images/boom.png';
+import errorImage from '../../assets/images/error.png';
+import flagImage from '../../assets/images/flag.png';
+import mineImage from '../../assets/images/mine.png';
 import './MinesweeperCell.css';
 
 export const MINESWEEPER_STATE_ERROR = 'MINESWEEPER_STATE_ERROR';
@@ -22,7 +26,7 @@ function MinesweeperCell({col, onFlagToggled, onReveal, row, state, value}) {
       attributes.className += ' isHidden';
       attributes.onClick = reveal;
       attributes.onContextMenu = toggleFlag;
-      displayElement = (<img alt="flag" src="assets/images/flag.png" />);
+      displayElement = (<img alt="flag" src={flagImage} />);
       break;
 
     case MINESWEEPER_STATE_HIDDEN:
@@ -32,17 +36,17 @@ function MinesweeperCell({col, onFlagToggled, onReveal, row, state, value}) {
       break;
 
     case MINESWEEPER_STATE_ERROR:
-      displayElement = (<img alt="error" src="assets/images/error.png" />);
+      displayElement = (<img alt="error" src={errorImage} />);
       break;
 
     default:
       switch(value) {
         case MINESWEEPER_VALUE_FAILED:
-          displayElement = (<img alt="boom" src="assets/images/boom.png" />);
+          displayElement = (<img alt="boom" src={boomImage} />);
           break;
 
         case MINESWEEPER_VALUE_MINE:
-          displayElement = (<img alt="png" src="assets/images/mine.png" />);
+          displayElement = (<img alt="png" src={mineImage} />);
           break;
 
         default:
