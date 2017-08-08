@@ -87,14 +87,18 @@ class MinesweeperGame extends React.PureComponent {
     });
   };
 
-  checkWin(board, totalMines) {
-    const totalFlagOrVisible = board
+  calculateCells(func) {
+    return this.state.board
       .reduce(
         (acc, row) => acc + row.reduce(
-          (acc, cell) => acc + (cell.state === MINESWEEPER_STATE_FLAGGED
-            || cell.state === MINESWEEPER_STATE_VISIBLE), 0
+          (acc, cell) => acc + func(cell), 0
         ), 0
       );
+  }
+
+  checkWin(board, totalMines) {
+    const totalFlagOrVisible = this.calculateCells(cell =>
+      cell.state === MINESWEEPER_STATE_FLAGGED || cell.state === MINESWEEPER_STATE_VISIBLE);
 
     if (totalFlagOrVisible === this.props.rows * this.props.cols) {
       this.win();
@@ -200,8 +204,14 @@ class MinesweeperGame extends React.PureComponent {
   }
 
   render() {
+    const minesLeft = this.props.mines - this.calculateCells(cell =>
+      cell.state === MINESWEEPER_STATE_FLAGGED);
+
     return (
       <div className="MinesweeperGame">
+        <div className="MinesweeperGame__header">
+          {minesLeft} Mines left
+        </div>
         <MinesweeperBoard
           board={this.state.board}
           onFlagToggled={this.handleFlagToggled}
