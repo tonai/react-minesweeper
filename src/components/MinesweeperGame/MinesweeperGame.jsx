@@ -65,6 +65,27 @@ class MinesweeperGame extends React.PureComponent {
     this.setState({board});
   }
 
+  handleScout = (row, col) => {
+    const cells = [
+      {row: row - 1, col: col - 1},
+      {row: row - 1, col: col},
+      {row: row - 1, col: col + 1},
+      {row: row, col: col - 1},
+      {row: row, col: col},
+      {row: row, col: col + 1},
+      {row: row + 1, col: col - 1},
+      {row: row + 1, col: col},
+      {row: row + 1, col: col + 1}
+    ];
+    cells.forEach(cell => {
+      if (this.state.board[cell.row]
+        && this.state.board[cell.row][cell.col]
+        && this.state.board[cell.row][cell.col].state === MINESWEEPER_STATE_HIDDEN) {
+        this.handleReveal(cell.row, cell.col);
+      }
+    });
+  };
+
   checkWin(board, totalMines) {
     const totalCorrectFlag = board
       .map(row => row.map(cell => cell.state === MINESWEEPER_STATE_FLAGGED && cell.value === MINESWEEPER_VALUE_MINE))
@@ -181,6 +202,7 @@ class MinesweeperGame extends React.PureComponent {
           board={this.state.board}
           onFlagToggled={this.handleFlagToggled}
           onReveal={this.handleReveal}
+          onScout={this.handleScout}
           status={this.state.status}
         />
       </div>

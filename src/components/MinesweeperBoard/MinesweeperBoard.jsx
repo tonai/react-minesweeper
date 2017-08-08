@@ -9,7 +9,7 @@ export const STATUS_GAME_OVER = 'STATUS_GAME_OVER';
 export const STATUS_RUNNING = 'STATUS_RUNNING';
 export const STATUS_WIN = 'STATUS_WIN';
 
-function MinesweeperBoard({board, onFlagToggled, onReveal, status}) {
+function MinesweeperBoard({board, onFlagToggled, onReveal, onScout, status}) {
   const classNames = {
     MinesweeperBoard: true,
     hasWon: status === STATUS_WIN,
@@ -26,6 +26,7 @@ function MinesweeperBoard({board, onFlagToggled, onReveal, status}) {
                 col={colIndex}
                 onFlagToggled={onFlagToggled}
                 onReveal={onReveal}
+                onScout={onScout}
                 row={rowIndex}
                 state={cell.state}
                 value={cell.value}
@@ -42,6 +43,7 @@ MinesweeperBoard.propTypes = {
   board: PropTypes.arrayOf(PropTypes.array),
   onFlagToggled: PropTypes.func.isRequired,
   onReveal: PropTypes.func.isRequired,
+  onScout: PropTypes.func.isRequired,
   status: PropTypes.string
 };
 

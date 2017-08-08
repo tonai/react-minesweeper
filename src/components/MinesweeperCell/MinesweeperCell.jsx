@@ -15,7 +15,7 @@ export const MINESWEEPER_STATE_VISIBLE = 'MINESWEEPER_STATE_VISIBLE';
 export const MINESWEEPER_VALUE_FAILED = 'MINESWEEPER_VALUE_FAILED';
 export const MINESWEEPER_VALUE_MINE = 'MINESWEEPER_VALUE_MINE';
 
-function MinesweeperCell({col, onFlagToggled, onReveal, row, state, value}) {
+function MinesweeperCell({col, onFlagToggled, onReveal, onScout, row, state, value}) {
   let displayElement = null;
   const attributes = {
      className: 'MinesweeperCell'
@@ -51,6 +51,7 @@ function MinesweeperCell({col, onFlagToggled, onReveal, row, state, value}) {
 
         default:
           displayElement = value !== 0 && value;
+          attributes.onDoubleClick = scout;
       }
   }
 
@@ -69,12 +70,18 @@ function MinesweeperCell({col, onFlagToggled, onReveal, row, state, value}) {
     event.preventDefault();
     onReveal(row, col);
   }
+
+  function scout(event) {
+    event.preventDefault();
+    onScout(row, col);
+  }
 }
 
 MinesweeperCell.propTypes = {
   col: PropTypes.number.isRequired,
   onFlagToggled: PropTypes.func.isRequired,
   onReveal: PropTypes.func.isRequired,
+  onScout: PropTypes.func.isRequired,
   row: PropTypes.number.isRequired,
   state: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([
