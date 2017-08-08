@@ -124,7 +124,7 @@ class MinesweeperGame extends React.PureComponent {
   }
 
   discover(row, col, board) {
-    if (board[row] && board[row][col] && board[row][col].state !== MINESWEEPER_STATE_VISIBLE) {
+    if (board[row] && board[row][col] && board[row][col].state === MINESWEEPER_STATE_HIDDEN) {
       board[row][col].state = MINESWEEPER_STATE_VISIBLE;
       if (board[row][col].value === 0) {
         this.discover(row - 1, col - 1, board);
