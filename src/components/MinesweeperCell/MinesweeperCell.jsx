@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import blockedImage from '../../assets/images/blocked.png';
 import boomImage from '../../assets/images/boom.png';
 import errorImage from '../../assets/images/error.png';
 import flagImage from '../../assets/images/flag.png';
 import mineImage from '../../assets/images/mine.png';
 import './MinesweeperCell.css';
 
+export const MINESWEEPER_STATE_BLOCKED = 'MINESWEEPER_STATE_BLOCKED';
 export const MINESWEEPER_STATE_ERROR = 'MINESWEEPER_STATE_ERROR';
 export const MINESWEEPER_STATE_FLAGGED = 'MINESWEEPER_STATE_FLAGGED';
 export const MINESWEEPER_STATE_HIDDEN = 'MINESWEEPER_STATE_HIDDEN';
@@ -24,9 +26,14 @@ function MinesweeperCell({col, onFlagToggled, onReveal, onScout, row, state, val
   switch(state) {
     case MINESWEEPER_STATE_FLAGGED:
       attributes.className += ' isHidden';
-      attributes.onClick = reveal;
       attributes.onContextMenu = toggleFlag;
       displayElement = (<img alt="flag" src={flagImage} />);
+      break;
+
+    case MINESWEEPER_STATE_BLOCKED:
+      attributes.className += ' isHidden';
+      attributes.onContextMenu = toggleFlag;
+      displayElement = (<img alt="error" src={blockedImage} />);
       break;
 
     case MINESWEEPER_STATE_HIDDEN:

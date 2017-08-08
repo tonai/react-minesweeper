@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import seedrandom from 'seedrandom';
 
 import {
+  MINESWEEPER_STATE_BLOCKED,
   MINESWEEPER_STATE_ERROR,
   MINESWEEPER_STATE_FLAGGED,
   MINESWEEPER_STATE_HIDDEN,
@@ -30,6 +31,10 @@ class MinesweeperGame extends React.PureComponent {
         break;
 
       case MINESWEEPER_STATE_FLAGGED:
+        board[row][col].state = MINESWEEPER_STATE_BLOCKED;
+        break;
+
+      case MINESWEEPER_STATE_BLOCKED:
         board[row][col].state = MINESWEEPER_STATE_HIDDEN;
         break;
 
@@ -41,8 +46,7 @@ class MinesweeperGame extends React.PureComponent {
   };
 
   handleReveal = (row, col) => {
-    if (this.state.status !== STATUS_RUNNING
-      || this.state.board[row][col].state === MINESWEEPER_STATE_FLAGGED) {
+    if (this.state.status !== STATUS_RUNNING) {
       return;
     }
 
