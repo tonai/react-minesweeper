@@ -36,9 +36,8 @@ class MinesweeperGame extends React.PureComponent {
       default:
     }
 
-    board = this.checkWin(board, this.state.mines.length);
     this.setState({board});
-
+    this.checkWin(board, this.state.mines.length);
   };
 
   handleReveal = (row, col) => {
@@ -62,7 +61,9 @@ class MinesweeperGame extends React.PureComponent {
         board = this.cloneBoard(this.state.board);
         board[row][col].state = MINESWEEPER_STATE_VISIBLE;
     }
+
     this.setState({board});
+    this.checkWin(board, this.state.mines.length);
   }
 
   handleScout = (row, col) => {
@@ -87,14 +88,17 @@ class MinesweeperGame extends React.PureComponent {
   };
 
   checkWin(board, totalMines) {
-    const totalCorrectFlag = board
-      .map(row => row.map(cell => cell.state === MINESWEEPER_STATE_FLAGGED && cell.value === MINESWEEPER_VALUE_MINE))
-      .reduce((acc, row) => acc + row.reduce((acc, cell) => acc + cell, 0), 0);
+    const totalFlagOrVisible = board
+      .reduce(
+        (acc, row) => acc + row.reduce(
+          (acc, cell) => acc + (cell.state === MINESWEEPER_STATE_FLAGGED
+            || cell.state === MINESWEEPER_STATE_VISIBLE), 0
+        ), 0
+      );
 
-    if (totalCorrectFlag === totalMines) {
+    if (totalFlagOrVisible === this.props.rows * this.props.cols) {
       this.win();
     }
-    return board;
   }
 
   cloneBoard(board) {
