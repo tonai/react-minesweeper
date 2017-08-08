@@ -62,18 +62,18 @@ function MinesweeperConfig({config, onConfigUpdated, onGameStart}) {
     switch(name) {
       case 'cols':
       case 'rows':
-        if (value < 10) {
-          return 10;
-        } else if (value > 50) {
-          return 50;
+        if (value < 5) {
+          return 5;
+        } else if (value > 30) {
+          return 30;
         }
         return Number(value);
 
       case 'mines':
         if (value < 10) {
           return 10;
-        } else if (value > values.rows * values.cols / 4) {
-          return parseInt(values.rows * values.cols / 4, 10);
+        } else if (value > values.rows * values.cols / 2) {
+          return parseInt(values.rows * values.cols / 2, 10);
         }
         return Number(value);
 

@@ -9,8 +9,8 @@ class MinisweeperApp extends React.PureComponent {
     super(props);
     this.state = {
       config: {
-        cols: 10,
-        rows: 10,
+        cols: 9,
+        rows: 9,
         mines: 10,
         seed: 'Minesweeper'
       },
