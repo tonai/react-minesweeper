@@ -82,13 +82,22 @@ class MinesweeperGame extends React.PureComponent {
       {row: row + 1, col: col},
       {row: row + 1, col: col + 1}
     ];
-    cells.forEach(cell => {
-      if (this.state.board[cell.row]
-        && this.state.board[cell.row][cell.col]
-        && this.state.board[cell.row][cell.col].state === MINESWEEPER_STATE_HIDDEN) {
-        this.handleReveal(cell.row, cell.col);
-      }
-    });
+    const totalFlag = cells
+      .reduce((acc, cell) =>
+        acc + (this.state.board[cell.row] !== undefined
+        && this.state.board[cell.row][cell.col] !== undefined
+        && this.state.board[cell.row][cell.col].state === MINESWEEPER_STATE_FLAGGED)
+      , 0);
+
+    if (totalFlag === this.state.board[row][col].value) {
+      cells.forEach(cell => {
+        if (this.state.board[cell.row]
+          && this.state.board[cell.row][cell.col]
+          && this.state.board[cell.row][cell.col].state === MINESWEEPER_STATE_HIDDEN) {
+          this.handleReveal(cell.row, cell.col);
+        }
+      });
+    }
   };
 
   calculateCells(func) {
