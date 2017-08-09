@@ -181,7 +181,7 @@ class MinesweeperGame extends React.PureComponent {
 
   generateMines() {
     const mines = [];
-    const rng = seedrandom(this.props.seed);
+    const rng = seedrandom(this.props.seed ? this.props.seed : null);
     while (mines.length < this.props.mines) {
       const position = this.getRandomPosition(rng);
       if (mines.indexOf(position) === -1) {

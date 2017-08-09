@@ -12,7 +12,7 @@ class MinisweeperApp extends React.PureComponent {
         cols: 9,
         rows: 9,
         mines: 10,
-        seed: 'Minesweeper'
+        seed: ''
       },
       play: false
     }
