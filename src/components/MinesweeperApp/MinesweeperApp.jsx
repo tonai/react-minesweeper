@@ -2,9 +2,9 @@ import React from 'react';
 
 import MinesweeperConfig from '../MinesweeperConfig/MinesweeperConfig.jsx';
 import MinesweeperGame from '../MinesweeperGame/MinesweeperGame.jsx';
-import './MinisweeperApp.css';
+import './MinesweeperApp.css';
 
-class MinisweeperApp extends React.PureComponent {
+class MinesweeperApp extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,7 +36,7 @@ class MinisweeperApp extends React.PureComponent {
 
   render() {
     return (
-      <div className="MinisweeperApp" >
+      <div className="MinesweeperApp" >
         {!this.state.play && (
           <MinesweeperConfig
             onConfigUpdated={this.handleConfigUpdated}
@@ -47,7 +47,7 @@ class MinisweeperApp extends React.PureComponent {
         {this.state.play && (
           <div>
             <MinesweeperGame {...this.state.config} />
-            <div className="MinisweeperApp__buttons" >
+            <div className="MinesweeperApp__buttons" >
               <button onClick={this.handleBack} >Back</button>
             </div>
           </div>
@@ -57,4 +57,4 @@ class MinisweeperApp extends React.PureComponent {
   }
 }
 
-export default MinisweeperApp;
+export default MinesweeperApp;
