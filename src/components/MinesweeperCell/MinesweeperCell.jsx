@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import {
   MINESWEEPER_STATE_BLOCKED,
   MINESWEEPER_STATE_ERROR,
+  MINESWEEPER_STATE_FAILED,
   MINESWEEPER_STATE_FLAGGED,
   MINESWEEPER_STATE_HIDDEN,
-  MINESWEEPER_VALUE_FAILED,
   MINESWEEPER_VALUE_MINE
 } from '../../settings/const';
 
@@ -24,17 +24,26 @@ function MinesweeperCell({col, onFlagToggled, onReveal, onScout, row, state, val
   };
 
   switch(state) {
+    case MINESWEEPER_STATE_BLOCKED:
+      attributes.className += ' isHidden';
+      attributes.onContextMenu = toggleFlag;
+      displayElement = (<img alt="error" src={blockedImage} />);
+      break;
+
+    case MINESWEEPER_STATE_ERROR:
+      displayElement = (<img alt="error" src={errorImage} />);
+      break;
+
+    case MINESWEEPER_STATE_FAILED:
+      displayElement = (<img alt="boom" src={boomImage} />);
+      break;
+
     case MINESWEEPER_STATE_FLAGGED:
       attributes.className += ' isHidden';
       attributes.onContextMenu = toggleFlag;
       displayElement = (<img alt="flag" src={flagImage} />);
       break;
 
-    case MINESWEEPER_STATE_BLOCKED:
-      attributes.className += ' isHidden';
-      attributes.onContextMenu = toggleFlag;
-      displayElement = (<img alt="error" src={blockedImage} />);
-      break;
 
     case MINESWEEPER_STATE_HIDDEN:
       attributes.className += ' isHidden';
@@ -42,16 +51,8 @@ function MinesweeperCell({col, onFlagToggled, onReveal, onScout, row, state, val
       attributes.onContextMenu = toggleFlag;
       break;
 
-    case MINESWEEPER_STATE_ERROR:
-      displayElement = (<img alt="error" src={errorImage} />);
-      break;
-
     default:
       switch(value) {
-        case MINESWEEPER_VALUE_FAILED:
-          displayElement = (<img alt="boom" src={boomImage} />);
-          break;
-
         case MINESWEEPER_VALUE_MINE:
           displayElement = (<img alt="png" src={mineImage} />);
           break;

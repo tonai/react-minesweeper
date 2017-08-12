@@ -5,13 +5,13 @@ import seedrandom from 'seedrandom';
 import {
   MINESWEEPER_STATE_BLOCKED,
   MINESWEEPER_STATE_ERROR,
+  MINESWEEPER_STATE_FAILED,
   MINESWEEPER_STATE_FLAGGED,
   MINESWEEPER_STATE_HIDDEN,
   MINESWEEPER_STATE_VISIBLE,
   MINESWEEPER_STATUS_GAME_OVER,
   MINESWEEPER_STATUS_RUNNING,
   MINESWEEPER_STATUS_WIN,
-  MINESWEEPER_VALUE_FAILED,
   MINESWEEPER_VALUE_MINE
 } from '../../settings/const';
 
@@ -20,54 +20,62 @@ import './MinesweeperGame.css';
 
 class MinesweeperGame extends React.PureComponent {
   handleFlagToggled = (row, col) => {
-    if (this.state.status !== MINESWEEPER_STATUS_RUNNING) {
-      return;
-    }
+    this.setState(prevState => {
+      if (prevState.status !== MINESWEEPER_STATUS_RUNNING) {
+        return;
+      }
 
-    let board = this.cloneBoard(this.state.board);
-    switch (board[row][col].state) {
-      case MINESWEEPER_STATE_HIDDEN:
-        board[row][col].state = MINESWEEPER_STATE_FLAGGED;
-        break;
+      let board = this.cloneBoard(prevState.board);
+      switch (board[row][col].state) {
+        case MINESWEEPER_STATE_HIDDEN:
+          board[row][col].state = MINESWEEPER_STATE_FLAGGED;
+          break;
 
-      case MINESWEEPER_STATE_FLAGGED:
-        board[row][col].state = MINESWEEPER_STATE_BLOCKED;
-        break;
+        case MINESWEEPER_STATE_FLAGGED:
+          board[row][col].state = MINESWEEPER_STATE_BLOCKED;
+          break;
 
-      case MINESWEEPER_STATE_BLOCKED:
-        board[row][col].state = MINESWEEPER_STATE_HIDDEN;
-        break;
+        case MINESWEEPER_STATE_BLOCKED:
+          board[row][col].state = MINESWEEPER_STATE_HIDDEN;
+          break;
 
-      default:
-    }
+        default:
+      }
 
-    this.setState({board});
-    this.checkWin(board, this.state.mines.length);
+      const status = this.checkWin(board, prevState.mines.length);
+      return {board, status};
+    });
   };
 
   handleReveal = (row, col) => {
-    if (this.state.status !== MINESWEEPER_STATUS_RUNNING) {
-      return;
-    }
+    this.setState(prevState => {
+      let status;
+      if (prevState.status !== MINESWEEPER_STATUS_RUNNING) {
+        return;
+      }
 
-    let board;
-    switch (this.state.board[row][col].value) {
-      case MINESWEEPER_VALUE_MINE:
-        board = this.loose(row, col, this.state.board);
-        break;
+      let board = this.cloneBoard(prevState.board);
+      switch (board[row][col].value) {
+        case MINESWEEPER_VALUE_MINE:
+          board[row][col].state = MINESWEEPER_STATE_FAILED;
+          status = MINESWEEPER_STATUS_GAME_OVER;
+          board = this.showBoard(board);
+          break;
 
-      case 0:
-        board = this.cloneBoard(this.state.board);
-        this.discover(row, col, board);
-        break;
+        case 0:
+          this.discover(row, col, board);
+          break;
 
-      default:
-        board = this.cloneBoard(this.state.board);
-        board[row][col].state = MINESWEEPER_STATE_VISIBLE;
-    }
+        default:
+          board[row][col].state = MINESWEEPER_STATE_VISIBLE;
+      }
 
-    this.setState({board});
-    this.checkWin(board, this.state.mines.length);
+      if (!status) {
+        status = this.checkWin(board, prevState.mines.length);
+      }
+
+      return {board, status};
+    });
   }
 
   handleScout = (row, col) => {
@@ -114,8 +122,9 @@ class MinesweeperGame extends React.PureComponent {
       cell.state === MINESWEEPER_STATE_FLAGGED || cell.state === MINESWEEPER_STATE_VISIBLE);
 
     if (totalFlagOrVisible === this.props.rows * this.props.cols) {
-      this.win();
+      return MINESWEEPER_STATUS_WIN;
     }
+    return MINESWEEPER_STATUS_RUNNING;
   }
 
   cloneBoard(board) {
@@ -210,12 +219,6 @@ class MinesweeperGame extends React.PureComponent {
     return parseInt(rng() * this.props.cols * this.props.rows, 10);
   }
 
-  loose(row, col, board) {
-    this.setState({status: MINESWEEPER_STATUS_GAME_OVER});
-    board[row][col].value = MINESWEEPER_VALUE_FAILED;
-    return this.showBoard(board);
-  }
-
   render() {
     const minesLeft = this.props.mines - this.calculateCells(cell =>
       cell.state === MINESWEEPER_STATE_FLAGGED);
@@ -241,16 +244,11 @@ class MinesweeperGame extends React.PureComponent {
       .map(row => row.map(cell => {
         if (cell.state === MINESWEEPER_STATE_FLAGGED && cell.value !== MINESWEEPER_VALUE_MINE) {
           cell.state = MINESWEEPER_STATE_ERROR;
-        } else if (cell.state === MINESWEEPER_STATE_HIDDEN
-          && (cell.value === MINESWEEPER_VALUE_MINE || cell.value === MINESWEEPER_VALUE_FAILED)) {
+        } else if (cell.state === MINESWEEPER_STATE_HIDDEN && cell.value === MINESWEEPER_VALUE_MINE) {
           cell.state = MINESWEEPER_STATE_VISIBLE;
         }
         return cell;
       }));
-  }
-
-  win() {
-    this.setState({status: MINESWEEPER_STATUS_WIN})
   }
 }
 
