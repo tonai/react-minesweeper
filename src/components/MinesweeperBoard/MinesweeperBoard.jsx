@@ -2,18 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classname from 'classname';
 
+import {
+  MINESWEEPER_STATUS_GAME_OVER,
+  MINESWEEPER_STATUS_RUNNING,
+  MINESWEEPER_STATUS_WIN
+} from '../../settings/const';
+
 import MinesweeperCell from '../MinesweeperCell/MinesweeperCell.jsx';
 import './MinesweeperBoard.css';
-
-export const STATUS_GAME_OVER = 'STATUS_GAME_OVER';
-export const STATUS_RUNNING = 'STATUS_RUNNING';
-export const STATUS_WIN = 'STATUS_WIN';
 
 function MinesweeperBoard({board, onFlagToggled, onReveal, onScout, status}) {
   const classNames = {
     MinesweeperBoard: true,
-    hasWon: status === STATUS_WIN,
-    hasLost: status === STATUS_GAME_OVER
+    hasWon: status === MINESWEEPER_STATUS_WIN,
+    hasLost: status === MINESWEEPER_STATUS_GAME_OVER
   };
 
   return (
@@ -48,7 +50,7 @@ MinesweeperBoard.propTypes = {
 };
 
 MinesweeperBoard.defaultProps = {
-  status: STATUS_RUNNING
+  status: MINESWEEPER_STATUS_RUNNING
 };
 
 export default MinesweeperBoard;

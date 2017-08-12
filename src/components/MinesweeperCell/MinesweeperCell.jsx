@@ -1,21 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {
+  MINESWEEPER_STATE_BLOCKED,
+  MINESWEEPER_STATE_ERROR,
+  MINESWEEPER_STATE_FLAGGED,
+  MINESWEEPER_STATE_HIDDEN,
+  MINESWEEPER_VALUE_FAILED,
+  MINESWEEPER_VALUE_MINE
+} from '../../settings/const';
+
 import blockedImage from '../../assets/images/blocked.png';
 import boomImage from '../../assets/images/boom.png';
 import errorImage from '../../assets/images/error.png';
 import flagImage from '../../assets/images/flag.png';
 import mineImage from '../../assets/images/mine.png';
 import './MinesweeperCell.css';
-
-export const MINESWEEPER_STATE_BLOCKED = 'MINESWEEPER_STATE_BLOCKED';
-export const MINESWEEPER_STATE_ERROR = 'MINESWEEPER_STATE_ERROR';
-export const MINESWEEPER_STATE_FLAGGED = 'MINESWEEPER_STATE_FLAGGED';
-export const MINESWEEPER_STATE_HIDDEN = 'MINESWEEPER_STATE_HIDDEN';
-export const MINESWEEPER_STATE_VISIBLE = 'MINESWEEPER_STATE_VISIBLE';
-
-export const MINESWEEPER_VALUE_FAILED = 'MINESWEEPER_VALUE_FAILED';
-export const MINESWEEPER_VALUE_MINE = 'MINESWEEPER_VALUE_MINE';
 
 function MinesweeperCell({col, onFlagToggled, onReveal, onScout, row, state, value}) {
   let displayElement = null;
